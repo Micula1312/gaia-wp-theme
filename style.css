@@ -1,0 +1,163 @@
+/*
+Theme Name:   GAIA-theme-by-mic
+Template:     twentytwentyfive
+Version:      1.1.0
+Description:  Child theme GAIA – sticky header + columns full-height + font mapping
+Author:       Your Name
+*/
+
+/* ===================== Variabili di layout ===================== */
+:root{
+  --header-h: 72px;   /* verrà aggiornata via JS */
+  --gutter: 20px;
+}
+
+/* ===================== Header sticky + blur ===================== */
+.wp-site-blocks > header{
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 1000;
+  background: rgba(255,255,255,0.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Il main parte sempre sotto l’header */
+.wp-site-blocks > main,
+main[data-barba="container"]{
+  padding-top: var(--header-h);
+  min-height: 100vh;
+}
+
+/* ===================== Colonne full-viewport ===================== */
+.wp-block-columns.scrollable-columns{
+  height: var(--group-h, auto);
+  overflow: hidden;
+  gap: var(--gutter);
+}
+
+.wp-block-columns.scrollable-columns > .wp-block-column{
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
+}
+
+.wp-block-columns.scrollable-columns > .wp-block-column > .col-inner{
+  height: 100%;
+  overflow: auto;
+  padding: 16px;
+  scroll-padding-top: var(--header-h);
+  padding-top: calc(16px + max(0px, var(--header-h) - 16px));
+}
+
+.image-column img{
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 781px){
+  .wp-block-columns.scrollable-columns{
+    height: auto;
+    overflow: visible;
+  }
+  .wp-block-columns.scrollable-columns > .wp-block-column{
+    overflow: visible;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+  .wp-block-columns.scrollable-columns > .wp-block-column > .col-inner{
+    height: auto;
+    overflow: visible;
+    padding: 0;
+  }
+}
+
+/* ===================== Font mapping richiesto ===================== */
+/* Header/Nav/labels in Helvetica */
+.wp-site-blocks > header,
+.wp-site-blocks > header .wp-block-site-title,
+.wp-site-blocks > header .wp-block-navigation,
+.wp-site-blocks > header .wp-block-navigation a,
+.wp-site-blocks > header .wp-block-navigation__submenu-container a,
+.label, .meta, .small-ui, .filter, .category-pill{
+  font-family: Helvetica, Arial, sans-serif !important;
+  font-weight: normal;
+}
+
+/* Titoli progetti in Cardinal Fruit Medium */
+.wp-block-post-title,
+.entry-title,
+h1.project-title, h2.project-title, h3.project-title{
+  font-family: "Cardinal Fruit Medium", serif !important;
+  font-weight: normal;
+  letter-spacing: 0.01em;
+}
+
+/* Testo lungo in serif elegante */
+.entry-content,
+.wp-block-post-content,
+.is-layout-constrained p,
+.is-layout-flow p{
+  font-family: Georgia, "Times New Roman", Times, serif;
+  line-height: 1.5;
+}
+
+/* ===================== Link: no zoom/anim ===================== */
+a{
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+  text-decoration: underline;
+}
+a:hover, a:focus{
+  transform: none !important;
+  animation: none !important;
+}
+
+/* ===================== Focus reset ===================== */
+:where(.wp-site-blocks *:focus){
+  outline-width: initial;
+  outline-style: initial;
+  outline-offset: initial;
+}
+
+/* ===================== Accessori (griglia sfondo, cursore custom) ===================== */
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,0,0,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+body{ cursor: none; }
+body::after{
+  content: "";
+  position: fixed;
+  width: 32px; height: 32px;
+  background-image: url('http://localhost/wp-content/uploads/2025/05/ChatGPT-Image-27-mag-2025-02_28_05.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 0.2s ease;
+}
+
+/* Barba.js perf */
+[data-barba="container"]{
+  will-change: transform, opacity;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}

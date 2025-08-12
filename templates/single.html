@@ -1,0 +1,62 @@
+<!-- wp:template-part {"slug":"header","theme":"twentytwentyfive-child"} /-->
+
+<!-- wp:group {"tagName":"main","layout":{"type":"constrained"}} -->
+<main class="wp-block-group" data-barba="container" data-barba-namespace="single">
+
+  <!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"0","right":"var:preset|spacing|30","bottom":"var:preset|spacing|40","left":"var:preset|spacing|30"}}},"layout":{"type":"constrained"}} -->
+  <div class="wp-block-group alignfull" style="padding-top:0;padding-right:var(--wp--preset--spacing--30);padding-bottom:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--30)">
+
+    <!-- Titolo progetto (mappato su Cardinal via CSS) -->
+    <!-- wp:post-title {"level":1,"align":"wide"} /-->
+
+    <!-- Colonne full-viewport con scroll per-colonna -->
+    <!-- Aggiunge la classe "scrollable-columns" per attivare il layout -->
+    <!-- wp:columns {"align":"wide","className":"scrollable-columns"} -->
+    <div class="wp-block-columns alignwide scrollable-columns">
+
+      <!-- Colonna 1 (15%) – highlights/labels (Helvetica) -->
+      <!-- wp:column {"width":"15%"} -->
+      <div class="wp-block-column" style="flex-basis:15%">
+        <div class="col-inner">
+          <!-- wp:shortcode -->
+          avf_view name="project-highlights" view-id="6834dc7134a13"
+          <!-- /wp:shortcode -->
+
+          <!-- wp:paragraph {"placeholder":"Add project highlights here"} -->
+          <p></p>
+          <!-- /wp:paragraph -->
+        </div>
+      </div>
+      <!-- /wp:column -->
+
+      <!-- Colonna 2 (30%) – testo lungo (serif elegante) -->
+      <!-- wp:column {"width":"30%"} -->
+      <div class="wp-block-column" style="flex-basis:30%">
+        <div class="col-inner">
+          <!-- wp:post-content {"layout":{"type":"constrained"}} /-->
+        </div>
+      </div>
+      <!-- /wp:column -->
+
+      <!-- Colonna 3 (55%) – media -->
+      <!-- wp:column {"width":"55%","className":"image-column"} -->
+      <div class="wp-block-column image-column" style="flex-basis:55%">
+        <div class="col-inner">
+          <!-- wp:post-featured-image {"style":{"spacing":{"margin":{"bottom":"var:preset|spacing|30"}}}} /-->
+
+          <!-- wp:shortcode -->
+          avf_view name="projects-gallery" view-id="6834e565f049e"
+          <!-- /wp:shortcode -->
+        </div>
+      </div>
+      <!-- /wp:column -->
+
+    </div>
+    <!-- /wp:columns -->
+
+  </div>
+  <!-- /wp:group -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","theme":"twentytwentyfive-child"} /-->
