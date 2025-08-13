@@ -1,0 +1,35 @@
+/* Effetto invert globale */
+body.invert-colors { filter: invert(1) hue-rotate(180deg);
+background-color: black; }
+
+/* Re-inverti media, pseudo-elementi e qualsiasi elemento marcato */
+body.invert-colors img,
+body.invert-colors video,
+body.invert-colors picture,
+body.invert-colors iframe,
+body.invert-colors canvas,
+body.invert-colors svg,
+body.invert-colors .no-invert,
+body.invert-colors::after,
+body.invert-colors::before {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Bottone (sopra al cursore custom) */
+.invert-toggle{
+  position: fixed;
+  right: 16px;
+  bottom: calc(16px + var(--footer-h, 0px));
+  z-index: 10001;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,0.2);
+  background: rgba(255,255,255,0.85);
+  font: 12px/1 Helvetica, Arial, sans-serif;
+  cursor: pointer;
+}
+.invert-toggle[aria-pressed="true"]{
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  border-color: rgba(0,0,0,0.35);
+}

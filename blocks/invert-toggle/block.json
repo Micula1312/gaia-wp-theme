@@ -1,0 +1,12 @@
+{
+  "apiVersion": 2,
+  "name": "gaia/invert-toggle",
+  "title": "Invert Colors Toggle",
+  "category": "design",
+  "icon": "visibility",
+  "description": "Pulsante per invertire i colori del sito.",
+  "supports": { "html": false },
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js",
+  "style": "file:./style.css"
+}

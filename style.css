@@ -1,39 +1,116 @@
 /*
 Theme Name:   GAIA-theme-by-mic
 Template:     twentytwentyfive
-Version:      1.1.0
-Description:  Child theme GAIA – sticky header + columns full-height + font mapping
+Version:      1.1.2
+Description:  Child theme GAIA – header/footer fixed, columns full-height, clean typography
 Author:       Your Name
 */
 
 /* ===================== Variabili di layout ===================== */
 :root{
-  --header-h: 72px;   /* verrà aggiornata via JS */
-  --gutter: 20px;
+  --header-h: 72px;   /* aggiornata via JS */
+  --footer-h: 0px;    /* aggiornata via JS se footer fixed */
+  --gutter: 10px;
+
+
+  --wp--preset--font-family--elegant-serif: "Cardinal Fruit Medium", serif;
 }
 
-/* ===================== Header sticky + blur ===================== */
-.wp-site-blocks > header{
+/* ===================== Body: non scorre ===================== */
+html, body{
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ===================== Header fixed con blur sfumato ===================== */
+.wp-site-blocks > header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 1000;
-  background: rgba(255,255,255,0.45);
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.6) 0%,
+    rgba(255,255,255,0.2) 80%,
+    rgba(255,255,255,0) 100%
+  );
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(0,0,0,0.06);
+  border-bottom: none;
 }
 
-/* Il main parte sempre sotto l’header */
+/* ===================== Footer fixed con blur sfumato ===================== */
+.wp-site-blocks > footer {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 1000;
+  /* background: linear-gradient(
+    to top,
+    rgba(255,255,255,0.6) 0%,
+    rgba(255,255,255,0.2) 80%,
+    rgba(255,255,255,0) 100%
+  );
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px); */
+  border-top: none;
+}
+
+/* ===================== Link header/footer come bottoni sospesi ===================== */
+.gaia-nav .wp-block-navigation-item__content,
+.gaia-nav a {
+  display: inline-block;
+  padding: 3px 12px;
+  margin: 0 4px;
+  border-radius: 999px;
+  /* border: 1px solid rgba(255,255,255,0.4);
+  background: rgba(0,0,0,0.0); */
+  color: 1px solid rgba(255,255,255,0.4);
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.2;
+  text-decoration: none;
+  backdrop-filter: blur(4px);
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+
+/* Stile base link header/footer */
+header .gaia-nav a,
+footer .wp-block-navigation a {
+  /* border: 1px solid transparent; */
+  background: transparent;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+}
+
+/* Hover con bordo, bg e rotazione random */
+header .gaia-nav a:hover,
+footer .wp-block-navigation a:hover,
+.gaia-nav a:focus {
+  background: rgba(255,255,255,0.85);
+  color: #000;
+  background: var(--wp--preset--color--base, #fff); /* cambia con il tuo colore */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  transform: rotate(var(--rot, 3deg));
+}
+
+
+
+
+/* ===================== Main offset ===================== */
 .wp-site-blocks > main,
 main[data-barba="container"]{
   padding-top: var(--header-h);
+  padding-bottom: var(--footer-h);
   min-height: 100vh;
+
+  margin-block-start: 0;
 }
+
 
 /* ===================== Colonne full-viewport ===================== */
 .wp-block-columns.scrollable-columns{
   height: var(--group-h, auto);
-  overflow: hidden;
+  overflow: hidden; /* il wrapper non scorre */
   gap: var(--gutter);
 }
 
@@ -42,17 +119,45 @@ main[data-barba="container"]{
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 0px;
   border: 1px solid rgba(0,0,0,0.06);
   background: #fff;
 }
 
-.wp-block-columns.scrollable-columns > .wp-block-column > .col-inner{
+
+
+/* scroll interno sulle inner */
+.wp-block-columns.scrollable-columns .wp-block-column .col-inner{
   height: 100%;
   overflow: auto;
-  padding: 16px;
+  /* padding: 16px; */
   scroll-padding-top: var(--header-h);
-  padding-top: calc(16px + max(0px, var(--header-h) - 16px));
+  /* padding-top: calc(16px + max(0px, var(--header-h) - 16px)); */
+}
+
+/* Rimuove bordo/colore di sfondo alla colonna contenitore */
+.scrollable-columns.no-col-borders > .wp-block-column {
+  border: none;
+  background: transparent;
+}
+
+/* Card a tutta larghezza */
+.fullwidth-card {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px;
+  margin-bottom: var(--gutter);
+}
+
+/* nascondi scrollbar (resta scrollabile) */
+.wp-block-columns.scrollable-columns .wp-block-column .col-inner{
+  -ms-overflow-style: none;   /* IE/Edge */
+  scrollbar-width: none;      /* Firefox */
+}
+.wp-block-columns.scrollable-columns .wp-block-column .col-inner::-webkit-scrollbar{
+  display: none;              /* Chrome/Safari */
 }
 
 .image-column img{
@@ -61,7 +166,9 @@ main[data-barba="container"]{
   display: block;
 }
 
+/* ===================== Mobile ===================== */
 @media (max-width: 781px){
+  html, body{ overflow: auto; }
   .wp-block-columns.scrollable-columns{
     height: auto;
     overflow: visible;
@@ -72,53 +179,90 @@ main[data-barba="container"]{
     border-radius: 0;
     background: transparent;
   }
-  .wp-block-columns.scrollable-columns > .wp-block-column > .col-inner{
+  .wp-block-columns.scrollable-columns .wp-block-column .col-inner{
     height: auto;
     overflow: visible;
     padding: 0;
   }
 }
 
-/* ===================== Font mapping richiesto ===================== */
-/* Header/Nav/labels in Helvetica */
-.wp-site-blocks > header,
-.wp-site-blocks > header .wp-block-site-title,
-.wp-site-blocks > header .wp-block-navigation,
-.wp-site-blocks > header .wp-block-navigation a,
-.wp-site-blocks > header .wp-block-navigation__submenu-container a,
-.label, .meta, .small-ui, .filter, .category-pill{
-  font-family: Helvetica, Arial, sans-serif !important;
+/* ===================== Tipografia pulita ===================== */
+/* Titolo del sito (header): Cardinal Fruit */
+.gaia-site-title,
+.gaia-site-title a{
+  font-family: "Cardinal Fruit Medium", serif;
   font-weight: normal;
+  letter-spacing: 0.01em;
+  text-decoration: none;
 }
 
-/* Titoli progetti in Cardinal Fruit Medium */
+/* Navigazione (header & footer): Helvetica */
+.gaia-nav .wp-block-navigation-item__content,
+.gaia-nav a{
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  text-decoration: none;
+}
+/* .gaia-nav a:hover,
+.gaia-nav a:focus{
+  text-decoration: underline;
+} */
+
+
+/* Titoli dei contenuti in Cardinal */
+
 .wp-block-post-title,
 .entry-title,
 h1.project-title, h2.project-title, h3.project-title{
-  font-family: "Cardinal Fruit Medium", serif !important;
+  font-family: "Cardinal Fruit Medium", serif;
   font-weight: normal;
   letter-spacing: 0.01em;
 }
+.page-template .wp-block-post-title,
+.wp-block-query-title, time {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  text-decoration: none;
+}
 
-/* Testo lungo in serif elegante */
+
+/* Testi lunghi in serif elegante */
 .entry-content,
 .wp-block-post-content,
 .is-layout-constrained p,
 .is-layout-flow p{
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: "Times New Roman", Times, serif;
+  /* font-family: "Cardinal Fruit Medium", serif; */
   line-height: 1.5;
 }
 
 /* ===================== Link: no zoom/anim ===================== */
-a{
-  transform: none !important;
-  animation: none !important;
-  transition: none !important;
+/* a{
+  transform: none;
+  animation: none;
+  transition: none;
   text-decoration: underline;
 }
 a:hover, a:focus{
-  transform: none !important;
-  animation: none !important;
+  transform: none;
+  animation: none;
+} */
+
+/*
+ * reset Link styles
+ * https://github.com/WordPress/gutenberg/issues/42319
+ */
+
+a {
+  text-decoration: none!important; /* tolgo underline base */
+  color: inherit;
+  background: linear-gradient(currentColor 0 0) left 50% / 0 2px no-repeat;
+  transition: background-size .35s ease;
+}
+
+a:hover,
+a:focus {
+  background-size: 100% 2px; /* linea cresce in orizzontale */
 }
 
 /* ===================== Focus reset ===================== */
@@ -128,7 +272,7 @@ a:hover, a:focus{
   outline-offset: initial;
 }
 
-/* ===================== Accessori (griglia sfondo, cursore custom) ===================== */
+/* ===================== Accessori ===================== */
 body::before{
   content: "";
   position: fixed;
@@ -141,7 +285,7 @@ body::before{
   pointer-events: none;
 }
 
-body{ cursor: none; }
+/* body{ cursor: none; } */
 body::after{
   content: "";
   position: fixed;
@@ -155,9 +299,80 @@ body::after{
   transition: transform 0.2s ease;
 }
 
-/* Barba.js perf */
+/* ===================== Barba.js perf ===================== */
 [data-barba="container"]{
   will-change: transform, opacity;
   transform-style: preserve-3d;
   backface-visibility: hidden;
 }
+
+/* ===================== Projects: griglia di card ===================== */
+.projects-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--gutter);
+}
+.proj-card{
+  border: 1px solid rgba(0,0,0,0.06);
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px;
+}
+.proj-card__excerpt{ margin-top: 6px; }
+
+/* ===================== Collaborations: lista a filetto ===================== */
+.coll-row{
+  display: grid;
+  grid-template-columns: 10% 30% 25% 1fr; /* anno, titolo, crediti, descr. */
+  gap: var(--gutter);
+  align-items: start;
+  padding: 12px 2px;
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+.coll-row:last-child{ border-bottom: 0; }
+.coll-row .cell{ min-width: 0; }
+
+/* Responsive (impila le celle su schermi piccoli) */
+@media (max-width: 900px){
+  .coll-row{ grid-template-columns: 1fr; gap: 6px; }
+}
+
+
+
+
+/* Homepage: il main non ha offset, il video occupa tutta la viewport */
+.home-hero{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.home-hero .wp-block-cover{
+  min-height: 100vh;
+}
+
+.home main.wp-block-group.alignfull {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+
+
+
+/* Nascondi le featured nella lista */
+.scrollable-columns .wp-block-post-featured-image { display: none !important; }
+
+/* Assicura che l'hover prenda tutta la “riga” */
+.wp-block-query .wp-block-post { display: block; position: relative; }
+
+/* Layer centrale */
+#hover-preview{
+  position: fixed; left:50%; top:50%;
+  transform: translate(-50%,-50%) rotate(var(--rot,0deg)) scale(.94);
+  opacity:0; pointer-events:none; z-index: 9999;
+  transition: opacity .2s ease, transform .35s cubic-bezier(.2,.7,.1,1);
+}
+#hover-preview.is-visible{ opacity:1; transform: translate(-50%,-50%) rotate(var(--rot,0deg)) scale(1); }
+#hover-preview img{
+  max-width: 52vmin; max-height: 68vh; display:block;
+  border-radius:10px; box-shadow:0 18px 60px rgba(0,0,0,.35);
+}
+@media (hover:none){ #hover-preview{ display:none; } }
