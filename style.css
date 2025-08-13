@@ -1,28 +1,36 @@
 /*
 Theme Name:   GAIA-theme-by-mic
 Template:     twentytwentyfive
-Version:      1.1.2
+Version:      1.1.3
 Description:  Child theme GAIA – header/footer fixed, columns full-height, clean typography
 Author:       Your Name
 */
 
-/* ===================== Variabili di layout ===================== */
+/* ===================== Variabili ===================== */
 :root{
   --header-h: 72px;   /* aggiornata via JS */
   --footer-h: 0px;    /* aggiornata via JS se footer fixed */
   --gutter: 10px;
 
+  /* Highlight globale (fucsia Gaia) */
+  --highlight-color: #ff00aa;
 
   --wp--preset--font-family--elegant-serif: "Cardinal Fruit Medium", serif;
 }
 
-/* ===================== Body: non scorre ===================== */
+/* Variante invert (se usi body.invert o data-flag, scommenta e adatta)
+body.invert{
+  --highlight-color: #00ffaa;
+}
+*/
+
+/* ===================== Layout generali ===================== */
 html, body{
   height: 100%;
   overflow: hidden;
 }
 
-/* ===================== Header fixed con blur sfumato ===================== */
+/* ===================== Header & Footer fixed ===================== */
 .wp-site-blocks > header {
   position: fixed;
   inset: 0 0 auto 0;
@@ -38,74 +46,63 @@ html, body{
   border-bottom: none;
 }
 
-/* ===================== Footer fixed con blur sfumato ===================== */
 .wp-site-blocks > footer {
   position: fixed;
   inset: auto 0 0 0;
   z-index: 1000;
-  /* background: linear-gradient(
+  border-top: none;
+  /* Se vuoi il blur anche nel footer, scommenta il blocco sotto
+  background: linear-gradient(
     to top,
     rgba(255,255,255,0.6) 0%,
     rgba(255,255,255,0.2) 80%,
     rgba(255,255,255,0) 100%
   );
   -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px); */
-  border-top: none;
+  backdrop-filter: blur(8px);
+  */
 }
 
-/* ===================== Link header/footer come bottoni sospesi ===================== */
+/* ===================== Navigazione: bottoni sospesi ===================== */
 .gaia-nav .wp-block-navigation-item__content,
 .gaia-nav a {
   display: inline-block;
   padding: 3px 12px;
   margin: 0 4px;
   border-radius: 999px;
-  /* border: 1px solid rgba(255,255,255,0.4);
-  background: rgba(0,0,0,0.0); */
-  color: 1px solid rgba(255,255,255,0.4);
   font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.2;
-  text-decoration: none;
+  text-decoration: none!important;
   backdrop-filter: blur(4px);
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-
-/* Stile base link header/footer */
-header .gaia-nav a,
-footer .wp-block-navigation a {
-  /* border: 1px solid transparent; */
+  /* transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; */
   background: transparent;
-  text-decoration: none;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+
 }
 
-/* Hover con bordo, bg e rotazione random */
+
+/* Hover con bg, rotazione e ombra fucsia (unificato) */
 header .gaia-nav a:hover,
 footer .wp-block-navigation a:hover,
 .gaia-nav a:focus {
-  background: rgba(255,255,255,0.85);
+  background: var(--wp--preset--color--base, #fff);
   color: #000;
-  background: var(--wp--preset--color--base, #fff); /* cambia con il tuo colore */
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
   transform: rotate(var(--rot, 3deg));
+  /* Fallback ombra */
+  box-shadow: 0 6px 18px rgba(255, 0, 170, 0.45);
+  /* Se supportato, blend elegante con la variabile */
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--highlight-color) 50%, transparent);
 }
 
-
-
-
-/* ===================== Main offset ===================== */
+/* ===================== Main offset (compensa header/footer fixed) ===================== */
 .wp-site-blocks > main,
 main[data-barba="container"]{
   padding-top: var(--header-h);
   padding-bottom: var(--footer-h);
   min-height: 100vh;
-
   margin-block-start: 0;
 }
-
 
 /* ===================== Colonne full-viewport ===================== */
 .wp-block-columns.scrollable-columns{
@@ -119,23 +116,24 @@ main[data-barba="container"]{
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  border-radius: 0px;
+  border-radius: 0;
   border: 1px solid rgba(0,0,0,0.06);
   background: #fff;
 }
 
-
-
-/* scroll interno sulle inner */
+/* Scroll interno sulle inner */
 .wp-block-columns.scrollable-columns .wp-block-column .col-inner{
   height: 100%;
   overflow: auto;
-  /* padding: 16px; */
   scroll-padding-top: var(--header-h);
-  /* padding-top: calc(16px + max(0px, var(--header-h) - 16px)); */
+  -ms-overflow-style: none;   /* IE/Edge */
+  scrollbar-width: none;      /* Firefox */
+}
+.wp-block-columns.scrollable-columns .wp-block-column .col-inner::-webkit-scrollbar{
+  display: none;              /* Chrome/Safari */
 }
 
-/* Rimuove bordo/colore di sfondo alla colonna contenitore */
+/* Varianti colonne */
 .scrollable-columns.no-col-borders > .wp-block-column {
   border: none;
   background: transparent;
@@ -151,15 +149,7 @@ main[data-barba="container"]{
   margin-bottom: var(--gutter);
 }
 
-/* nascondi scrollbar (resta scrollabile) */
-.wp-block-columns.scrollable-columns .wp-block-column .col-inner{
-  -ms-overflow-style: none;   /* IE/Edge */
-  scrollbar-width: none;      /* Firefox */
-}
-.wp-block-columns.scrollable-columns .wp-block-column .col-inner::-webkit-scrollbar{
-  display: none;              /* Chrome/Safari */
-}
-
+/* Immagini colonna */
 .image-column img{
   max-width: 100%;
   height: auto;
@@ -186,7 +176,7 @@ main[data-barba="container"]{
   }
 }
 
-/* ===================== Tipografia pulita ===================== */
+/* ===================== Tipografia ===================== */
 /* Titolo del sito (header): Cardinal Fruit */
 .gaia-site-title,
 .gaia-site-title a{
@@ -203,14 +193,8 @@ main[data-barba="container"]{
   font-weight: normal;
   text-decoration: none;
 }
-/* .gaia-nav a:hover,
-.gaia-nav a:focus{
-  text-decoration: underline;
-} */
 
-
-/* Titoli dei contenuti in Cardinal */
-
+/* Titoli contenuti */
 .wp-block-post-title,
 .entry-title,
 h1.project-title, h2.project-title, h3.project-title{
@@ -218,13 +202,14 @@ h1.project-title, h2.project-title, h3.project-title{
   font-weight: normal;
   letter-spacing: 0.01em;
 }
+
 .page-template .wp-block-post-title,
-.wp-block-query-title, time {
+.wp-block-query-title,
+time {
   font-family: Helvetica, Arial, sans-serif;
   font-weight: normal;
   text-decoration: none;
 }
-
 
 /* Testi lunghi in serif elegante */
 .entry-content,
@@ -236,33 +221,32 @@ h1.project-title, h2.project-title, h3.project-title{
   line-height: 1.5;
 }
 
-/* ===================== Link: no zoom/anim ===================== */
-/* a{
-  transform: none;
-  animation: none;
-  transition: none;
-  text-decoration: underline;
-}
-a:hover, a:focus{
-  transform: none;
-  animation: none;
-} */
-
-/*
- * reset Link styles
- * https://github.com/WordPress/gutenberg/issues/42319
- */
-
-a {
-  text-decoration: none!important; /* tolgo underline base */
+/* ===================== Link (solo barrato animato fucsia) ===================== */
+a{
+  position: relative;
+  text-decoration: none !important;  /* niente underline/barrato nativo */
   color: inherit;
-  background: linear-gradient(currentColor 0 0) left 50% / 0 2px no-repeat;
-  transition: background-size .35s ease;
 }
 
-a:hover,
-a:focus {
-  background-size: 100% 2px; /* linea cresce in orizzontale */
+/* la “linea” di barrato */
+a::after{
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 2px;                      /* sottile come prima */
+  background: var(--highlight-color);
+  transform: translateY(-50%) scaleX(0); /* nascosta */
+  transform-origin: left center;         /* cresce da sinistra a destra */
+  transition: transform .35s ease;
+  pointer-events: none;                  /* non blocca i click */
+}
+
+/* hover/focus: attiva il barrato con animazione 0→100 */
+a:hover::after,
+a:focus::after,
+a:focus-visible::after{
+  transform: translateY(-50%) scaleX(1);
 }
 
 /* ===================== Focus reset ===================== */
@@ -306,7 +290,7 @@ body::after{
   backface-visibility: hidden;
 }
 
-/* ===================== Projects: griglia di card ===================== */
+/* ===================== Projects grid ===================== */
 .projects-grid{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -320,7 +304,7 @@ body::after{
 }
 .proj-card__excerpt{ margin-top: 6px; }
 
-/* ===================== Collaborations: lista a filetto ===================== */
+/* ===================== Collaborations list ===================== */
 .coll-row{
   display: grid;
   grid-template-columns: 10% 30% 25% 1fr; /* anno, titolo, crediti, descr. */
@@ -332,15 +316,11 @@ body::after{
 .coll-row:last-child{ border-bottom: 0; }
 .coll-row .cell{ min-width: 0; }
 
-/* Responsive (impila le celle su schermi piccoli) */
 @media (max-width: 900px){
   .coll-row{ grid-template-columns: 1fr; gap: 6px; }
 }
 
-
-
-
-/* Homepage: il main non ha offset, il video occupa tutta la viewport */
+/* ===================== Homepage hero ===================== */
 .home-hero{
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -348,29 +328,26 @@ body::after{
 .home-hero .wp-block-cover{
   min-height: 100vh;
 }
-
 .home main.wp-block-group.alignfull {
   padding-top: 0 !important;
   margin-top: 0 !important;
 }
 
-
-
-
-/* Nascondi le featured nella lista */
+/* ===================== Query list hover helpers ===================== */
 .scrollable-columns .wp-block-post-featured-image { display: none !important; }
-
-/* Assicura che l'hover prenda tutta la “riga” */
 .wp-block-query .wp-block-post { display: block; position: relative; }
 
-/* Layer centrale */
+/* ===================== Hover preview layer ===================== */
 #hover-preview{
   position: fixed; left:50%; top:50%;
   transform: translate(-50%,-50%) rotate(var(--rot,0deg)) scale(.94);
   opacity:0; pointer-events:none; z-index: 9999;
   transition: opacity .2s ease, transform .35s cubic-bezier(.2,.7,.1,1);
 }
-#hover-preview.is-visible{ opacity:1; transform: translate(-50%,-50%) rotate(var(--rot,0deg)) scale(1); }
+#hover-preview.is-visible{
+  opacity:1;
+  transform: translate(-50%,-50%) rotate(var(--rot,0deg)) scale(1);
+}
 #hover-preview img{
   max-width: 52vmin; max-height: 68vh; display:block;
   border-radius:10px; box-shadow:0 18px 60px rgba(0,0,0,.35);

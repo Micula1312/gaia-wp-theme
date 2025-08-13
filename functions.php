@@ -26,9 +26,6 @@ add_action('after_setup_theme', function () {
 /* ---------------------------------------------
  * Enqueue: CSS + JS (front-end)
  * -------------------------------------------*/
-/* ---------------------------------------------
- * Enqueue: CSS + JS (front-end)
- * -------------------------------------------*/
 add_action('wp_enqueue_scripts', function () {
   $uri = get_stylesheet_directory_uri();
   $dir = get_stylesheet_directory();
@@ -119,17 +116,31 @@ add_action('wp_enqueue_scripts', function () {
       filemtime($hover_abs),
       true                       // in footer
     );
-    // Ping di debug in console così verifiche che sia caricato
     wp_add_inline_script('gaia-hover-preview', 'console.log("gaia-hover-preview loaded");');
   } else {
-    // Commento di debug nel sorgente se il path è sbagliato
     add_action('wp_footer', function() use ($hover_rel) {
       echo "\n<!-- MISSING FILE: {$hover_rel} (controlla percorso nel tema child) -->\n";
     }, 99);
   }
 
-}, 20);
+  // 9) Invert toggle — FILE: /js/invert.js (dipende da Barba)
+  $invert_rel = '/js/invert.js';
+  $invert_abs = $dir . $invert_rel;
+  if (file_exists($invert_abs)) {
+    wp_enqueue_script(
+      'gaia-invert',
+      $uri . $invert_rel,
+      ['barba'], // così window.barba è già disponibile
+      filemtime($invert_abs),
+      true
+    );
+  } else {
+    add_action('wp_footer', function() use ($invert_rel) {
+      echo "\n<!-- MISSING FILE: {$invert_rel} (controlla percorso nel tema child) -->\n";
+    }, 99);
+  }
 
+}, 20);
 
 /* ---------------------------------------------
  * Font nel block editor (Cardinal anche in editor)
@@ -207,10 +218,9 @@ add_action('init', function() {
   ));
 });
 
-
 // GAIA: Blocco "Invert Colors Toggle"
 add_action('init', function () {
-  // JS di view (non crea bottone, solo bind + stato)
+  // JS di view (se vuoi che il blocco usi lo stesso script, puoi anche puntare qui a /js/invert.js)
   $js_rel  = '/js/view.js';
   $js_path = get_stylesheet_directory() . $js_rel;
   $js_url  = get_stylesheet_directory_uri() . $js_rel;
@@ -240,5 +250,3 @@ add_action('init', function () {
   // Registra il blocco server-rendered
   register_block_type( get_stylesheet_directory() . '/blocks/invert-toggle' );
 });
-
-
