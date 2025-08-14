@@ -30,21 +30,26 @@ html, body{
   overflow: hidden;
 }
 
-/* --- 1. Stile generale per tutti gli <a> (barrato) --- */
+/* === 1. LINK GENERICI: barrato animato === */
 a {
   position: relative;
   text-decoration: none !important;
   color: inherit;
 }
 
-/* linea barrata animata */
+/* barra sfumata */
 a::after {
   content: "";
   position: absolute;
   left: 0; right: 0;
   top: 50%;
   height: 2px;
-  background: var(--highlight-color, #ff00aa);
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--highlight-color, #ff00aa) 50%,
+    transparent 100%
+  );
   transform: translateY(-50%) scaleX(0);
   transform-origin: left center;
   transition: transform 0.35s ease;
@@ -89,8 +94,7 @@ a:focus-visible::after {
   backdrop-filter: blur(8px);
   */
 }
-/* --- 2. Effetto evidenziato per nav & footer --- */
-/* Selezioniamo tutti i link in nav e footer, tranne il titolo del sito */
+/* === 2. LINK NAV/FOOTER: effetto evidenziato === */
 .gaia-nav a,
 header .gaia-nav a,
 footer a {
@@ -101,43 +105,49 @@ footer a {
   padding: 3px 12px;
   margin: 0 4px;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.2;
   position: relative;
   color: #000;
   text-decoration: none !important;
-  /* backdrop-filter: blur(4px); */
-  transition: color 0.35s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  backdrop-filter: blur(4px);
+background: rgba(255,255,255,0.6) 0%,;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+    transition: color 0.35s ease, transform 0.25s ease;
 }
 
-/* rimuove il barrato solo qui */
+/* niente barrato qui */
 .gaia-nav a::after,
 header .gaia-nav a::after,
 footer a::after {
   content: none;
 }
 
-/* aggiunge background fill */
+/* background fill sfumato */
 .gaia-nav a::before,
 header .gaia-nav a::before,
 footer a::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--highlight-color, #ff00aa);
+  background: linear-gradient(
+    to right,
+    var(--highlight-color, #ff00aa) 100%,
+    var(--highlight-color, #ff00aa) 100%
+  );
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 0.35s linear;
   z-index: -1;
 }
 
-/* hover: riempimento + cambio testo + rotazione */
+/* hover: riempimento + testo bianco */
 .gaia-nav a:hover,
 header .gaia-nav a:hover,
 footer a:hover {
-  color: #fff;
-  /* transform: rotate(var(--rot, 3deg));
-  box-shadow: 0 6px 12px color-mix(in srgb, var(--highlight-color) 50%, transparent); */
+  color: #fff!important;
+  transform: rotate(var(--rot, 3deg));
 }
 
 .gaia-nav a:hover::before,

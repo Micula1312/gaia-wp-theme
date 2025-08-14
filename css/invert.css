@@ -1,4 +1,4 @@
-/* ===================== Invert mode (body.invert) ===================== */
+/* ===================== INVERT MODE ===================== */
 body.invert {
   /* Highlight fucsia → verde acqua */
   --highlight-color: #00ffaa;
@@ -30,18 +30,46 @@ body.invert .wp-site-blocks > footer {
   );
 }
 
-/* Bottoni nav sospesi */
-body.invert .gaia-nav a {
+/* Bottoni nav/footer sospesi in invert */
+body.invert .gaia-nav a,
+body.invert header .gaia-nav a,
+body.invert footer a {
   color: #f2f2f2;
+  background: #111; /* riquadro visibile prima del riempimento */
 }
 
-body.invert header .gaia-nav a:hover,
-body.invert footer .wp-block-navigation a:hover,
-body.invert .gaia-nav a:focus {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--highlight-color);
-  box-shadow: 0 6px 6px color-mix(in srgb, var(--highlight-color) 50%, transparent);
+
+
+/* Fill sfumato invert */
+body.invert .gaia-nav a::before,
+body.invert header .gaia-nav a::before,
+body.invert footer a::before {
+  background: linear-gradient(
+    to right,
+    var(--highlight-color, #00ffaa) 100%,
+    var(--highlight-color, #00ffaa) 100%
+  );
 }
+
+/* Barra animata generica invert (sfumata) */
+body.invert a::after {
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    var(--highlight-color, #00ffaa) 50%,
+    transparent 100%
+  );
+}
+
+/* Nessuna ombra su hover in invert */
+body.invert .gaia-nav a:hover,
+body.invert header .gaia-nav a:hover,
+body.invert footer a:hover {
+  box-shadow: none;
+    color:#111;
+
+}
+
 
 /* Colonne e card invertite */
 body.invert .wp-block-columns.scrollable-columns > .wp-block-column,
@@ -55,15 +83,10 @@ body.invert .scrollable-columns.no-col-borders > .wp-block-column {
   background: transparent;
 }
 
-/* Testi */
+/* Testi invert */
 body.invert .entry-content,
 body.invert .wp-block-post-content {
   color: #e5e5e5;
-}
-
-/* Barrato animato in highlight */
-body.invert a::after {
-  background: var(--highlight-color);
 }
 
 /* Collaborations list invert */
