@@ -18,11 +18,15 @@ Author:       Your Name
   --wp--preset--font-family--elegant-serif: "Cardinal Fruit Medium", serif;
 }
 
-/* Variante invert (se usi body.invert o data-flag, scommenta e adatta)
-body.invert{
-  --highlight-color: #00ffaa;
+:root :where(.is-layout-flex) {
+    gap: 0;
 }
-*/
+:root :where(.is-layout-constrained) > * {
+    margin-block-start: 0rem;
+    margin-block-end: 0;
+}
+
+
 
 /* ===================== Layout generali ===================== */
 html, body{
@@ -47,7 +51,7 @@ a::after {
   background: linear-gradient(
     to right,
     transparent 0%,
-    var(--highlight-color, #ff00aa) 50%,
+    var(--highlight-color, #ff00aa) 80%,
     transparent 100%
   );
   transform: translateY(-50%) scaleX(0);
@@ -67,14 +71,6 @@ a:focus-visible::after {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 1000;
-  /* background: linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.6) 0%,
-    rgba(255,255,255,0.2) 80%,
-    rgba(255,255,255,0) 100%
-  );
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px); */
   border-bottom: none;
 }
 
@@ -83,35 +79,26 @@ a:focus-visible::after {
   inset: auto 0 0 0;
   z-index: 1000;
   border-top: none;
-  /* Se vuoi il blur anche nel footer, scommenta il blocco sotto
-  background: linear-gradient(
-    to top,
-    rgba(255,255,255,0.6) 0%,
-    rgba(255,255,255,0.2) 80%,
-    rgba(255,255,255,0) 100%
-  );
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  */
 }
 /* === 2. LINK NAV/FOOTER: effetto evidenziato === */
 .gaia-nav a,
 header .gaia-nav a,
-footer a {
+footer a, button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
   width: auto;
-  padding: 3px 12px;
-  margin: 0 4px;
+  padding: 0px 3px;
+  margin: 0;
+  border: 1px solid rgba(0,0,0,0.06);
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 12px;
-  line-height: 1.2;
+  /* font-size: 14px;
+  line-height: 1.2; */
   position: relative;
   color: #000;
   text-decoration: none !important;
   backdrop-filter: blur(4px);
-background: rgba(255,255,255,0.6) 0%,;
+  background: rgba(255,255,255,0.1);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
     transition: color 0.35s ease, transform 0.25s ease;
@@ -126,6 +113,7 @@ footer a::after {
 
 /* background fill sfumato */
 .gaia-nav a::before,
+button::before,
 header .gaia-nav a::before,
 footer a::before {
   content: "";
@@ -144,6 +132,7 @@ footer a::before {
 
 /* hover: riempimento + testo bianco */
 .gaia-nav a:hover,
+button:hover,
 header .gaia-nav a:hover,
 footer a:hover {
   color: #fff!important;
@@ -151,9 +140,17 @@ footer a:hover {
 }
 
 .gaia-nav a:hover::before,
+button:hover::before,
 header .gaia-nav a:hover::before,
 footer a:hover::before {
   transform: scaleX(1);
+}
+
+
+.wp-block-cover {
+  transform: scaleX(1);
+  border: 1px solid rgba(0,0,0,0.06);
+  outline-offset: -20px -30px;
 }
 
 /* ===================== Main offset (compensa header/footer fixed) ===================== */

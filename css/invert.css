@@ -11,37 +11,24 @@ body.invert {
   background-color: #000;
 }
 
-/* Header & Footer invertiti */
-body.invert .wp-site-blocks > header {
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.6) 80%,
-    rgba(0, 0, 0, 0) 100%
-  );
-}
 
-body.invert .wp-site-blocks > footer {
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.8) 0%,
-    rgba(0, 0, 0, 0.6) 80%,
-    rgba(0, 0, 0, 0) 100%
-  );
-}
 
 /* Bottoni nav/footer sospesi in invert */
 body.invert .gaia-nav a,
+body.invert button,
 body.invert header .gaia-nav a,
 body.invert footer a {
   color: #f2f2f2;
   background: #111; /* riquadro visibile prima del riempimento */
+    background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
 }
 
 
 
 /* Fill sfumato invert */
 body.invert .gaia-nav a::before,
+body.invert button:before,
 body.invert header .gaia-nav a::before,
 body.invert footer a::before {
   background: linear-gradient(
@@ -63,10 +50,11 @@ body.invert a::after {
 
 /* Nessuna ombra su hover in invert */
 body.invert .gaia-nav a:hover,
+body.invert button:hover,
 body.invert header .gaia-nav a:hover,
 body.invert footer a:hover {
   box-shadow: none;
-    color:#111;
+  color: #000 !important;
 
 }
 
@@ -75,7 +63,7 @@ body.invert footer a:hover {
 body.invert .wp-block-columns.scrollable-columns > .wp-block-column,
 body.invert .fullwidth-card,
 body.invert .proj-card {
-  background: #111;
+  background: #000;
   border-color: rgba(255, 255, 255, 0.15);
 }
 

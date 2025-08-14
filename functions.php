@@ -61,6 +61,9 @@ add_action('wp_enqueue_scripts', function () {
     null
   );
 
+
+  
+
   // 3) Scroll columns (misura header/footer + --group-h)
   $scroll_js = $dir . '/js/scroll-columns.js';
   if (file_exists($scroll_js)) {
@@ -134,6 +137,30 @@ add_action('wp_enqueue_scripts', function () {
     add_action('wp_footer', function() use ($hover_rel) {
       echo "\n<!-- MISSING FILE: {$hover_rel} (controlla percorso nel tema child) -->\n";
     }, 99);
+  }
+
+
+  add_action('wp_enqueue_scripts', function () {
+  // Carica il JS in footer, dopo tutto (niente dipendenze particolari)
+  wp_enqueue_script(
+    'gaia-audio',
+    get_stylesheet_directory_uri() . '/assets/js/gaia-audio.js',
+    [],
+    filemtime( get_stylesheet_directory() . '/assets/js/gaia-audio.js' ),
+    true
+  );
+});
+
+  // 8b) Audio
+  $audio_js = $dir . '/js/audio-toggle.js';
+  if (file_exists($scroll_js)) {
+    wp_enqueue_script(
+      'gaia-audio-toggle',
+      $uri . '/js/audio-toggle.js',
+      [],
+      filemtime($audio_js),
+      true
+    );
   }
 
   // 9) Invert toggle — FILE: /js/invert.js (dipende da Barba)
