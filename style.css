@@ -30,19 +30,46 @@ html, body{
   overflow: hidden;
 }
 
+/* --- 1. Stile generale per tutti gli <a> (barrato) --- */
+a {
+  position: relative;
+  text-decoration: none !important;
+  color: inherit;
+}
+
+/* linea barrata animata */
+a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0;
+  top: 50%;
+  height: 2px;
+  background: var(--highlight-color, #ff00aa);
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s ease;
+  pointer-events: none;
+}
+
+a:hover::after,
+a:focus::after,
+a:focus-visible::after {
+  transform: translateY(-50%) scaleX(1);
+}
+
 /* ===================== Header & Footer fixed ===================== */
 .wp-site-blocks > header {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: 1000;
-  background: linear-gradient(
+  /* background: linear-gradient(
     to bottom,
     rgba(255,255,255,0.6) 0%,
     rgba(255,255,255,0.2) 80%,
     rgba(255,255,255,0) 100%
   );
   -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px); */
   border-bottom: none;
 }
 
@@ -62,37 +89,61 @@ html, body{
   backdrop-filter: blur(8px);
   */
 }
-
-/* ===================== Navigazione: bottoni sospesi ===================== */
-.gaia-nav .wp-block-navigation-item__content,
-.gaia-nav a {
-  display: inline-block;
+/* --- 2. Effetto evidenziato per nav & footer --- */
+/* Selezioniamo tutti i link in nav e footer, tranne il titolo del sito */
+.gaia-nav a,
+header .gaia-nav a,
+footer a {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
   padding: 3px 12px;
   margin: 0 4px;
-  border-radius: 999px;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.2;
-  text-decoration: none!important;
-  backdrop-filter: blur(4px);
-  /* transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; */
-  background: transparent;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
-
+  position: relative;
+  color: #000;
+  text-decoration: none !important;
+  /* backdrop-filter: blur(4px); */
+  transition: color 0.35s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+/* rimuove il barrato solo qui */
+.gaia-nav a::after,
+header .gaia-nav a::after,
+footer a::after {
+  content: none;
+}
 
-/* Hover con bg, rotazione e ombra fucsia (unificato) */
+/* aggiunge background fill */
+.gaia-nav a::before,
+header .gaia-nav a::before,
+footer a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--highlight-color, #ff00aa);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.35s linear;
+  z-index: -1;
+}
+
+/* hover: riempimento + cambio testo + rotazione */
+.gaia-nav a:hover,
 header .gaia-nav a:hover,
-footer .wp-block-navigation a:hover,
-.gaia-nav a:focus {
-  background: var(--wp--preset--color--base, #fff);
-  color: #000;
-  transform: rotate(var(--rot, 3deg));
-  /* Fallback ombra */
-  box-shadow: 0 6px 18px rgba(255, 0, 170, 0.45);
-  /* Se supportato, blend elegante con la variabile */
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--highlight-color) 50%, transparent);
+footer a:hover {
+  color: #fff;
+  /* transform: rotate(var(--rot, 3deg));
+  box-shadow: 0 6px 12px color-mix(in srgb, var(--highlight-color) 50%, transparent); */
+}
+
+.gaia-nav a:hover::before,
+header .gaia-nav a:hover::before,
+footer a:hover::before {
+  transform: scaleX(1);
 }
 
 /* ===================== Main offset (compensa header/footer fixed) ===================== */
@@ -221,33 +272,7 @@ time {
   line-height: 1.5;
 }
 
-/* ===================== Link (solo barrato animato fucsia) ===================== */
-a{
-  position: relative;
-  text-decoration: none !important;  /* niente underline/barrato nativo */
-  color: inherit;
-}
 
-/* la “linea” di barrato */
-a::after{
-  content: "";
-  position: absolute;
-  left: 0; right: 0;
-  top: 50%;
-  height: 2px;                      /* sottile come prima */
-  background: var(--highlight-color);
-  transform: translateY(-50%) scaleX(0); /* nascosta */
-  transform-origin: left center;         /* cresce da sinistra a destra */
-  transition: transform .35s ease;
-  pointer-events: none;                  /* non blocca i click */
-}
-
-/* hover/focus: attiva il barrato con animazione 0→100 */
-a:hover::after,
-a:focus::after,
-a:focus-visible::after{
-  transform: translateY(-50%) scaleX(1);
-}
 
 /* ===================== Focus reset ===================== */
 :where(.wp-site-blocks *:focus){
@@ -353,3 +378,4 @@ body::after{
   border-radius:10px; box-shadow:0 18px 60px rgba(0,0,0,.35);
 }
 @media (hover:none){ #hover-preview{ display:none; } }
+

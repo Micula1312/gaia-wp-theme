@@ -1,0 +1,77 @@
+/* ===================== Invert mode (body.invert) ===================== */
+body.invert {
+  /* Highlight fucsia → verde acqua */
+  --highlight-color: #00ffaa;
+
+  /* Base WP color → scuro */
+  --wp--preset--color--base: #111;
+
+  /* Font color globale → chiaro */
+  color: #f2f2f2;
+  background-color: #000;
+}
+
+/* Header & Footer invertiti */
+body.invert .wp-site-blocks > header {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.6) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+body.invert .wp-site-blocks > footer {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.6) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+/* Bottoni nav sospesi */
+body.invert .gaia-nav a {
+  color: #f2f2f2;
+}
+
+body.invert header .gaia-nav a:hover,
+body.invert footer .wp-block-navigation a:hover,
+body.invert .gaia-nav a:focus {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--highlight-color);
+  box-shadow: 0 6px 6px color-mix(in srgb, var(--highlight-color) 50%, transparent);
+}
+
+/* Colonne e card invertite */
+body.invert .wp-block-columns.scrollable-columns > .wp-block-column,
+body.invert .fullwidth-card,
+body.invert .proj-card {
+  background: #111;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.invert .scrollable-columns.no-col-borders > .wp-block-column {
+  background: transparent;
+}
+
+/* Testi */
+body.invert .entry-content,
+body.invert .wp-block-post-content {
+  color: #e5e5e5;
+}
+
+/* Barrato animato in highlight */
+body.invert a::after {
+  background: var(--highlight-color);
+}
+
+/* Collaborations list invert */
+body.invert .coll-row {
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Hover preview ombra schiarita */
+body.invert #hover-preview img {
+  box-shadow: 0 18px 60px rgba(255, 255, 255, 0.25);
+}

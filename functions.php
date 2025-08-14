@@ -40,6 +40,19 @@ add_action('wp_enqueue_scripts', function () {
     file_exists($child_css) ? filemtime($child_css) : null
   );
 
+
+  $invert_css = $dir . '/css/invert.css';
+  if (file_exists($invert_css)) {
+    wp_enqueue_style(
+      'gaia-invert-css',
+      $uri . '/css/invert.css',
+      ['child-style'], // dopo lo stile base
+      filemtime($invert_css)
+    );
+  }
+
+  
+
   // 2) Font: Cardinal Fruit (front-end)
   wp_enqueue_style(
     'cardinal-fruit',
